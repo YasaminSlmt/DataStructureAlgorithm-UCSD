@@ -66,7 +66,11 @@ namespace Solution
                 }
                     
 
-             Console.WriteLine((result == true ? "Success" : badIdx)); 
+             // Console.WriteLine((result == true ? "Success" : badIdx)); Coursera gave compilation error because of this line
+             if (result == true)
+                Console.WriteLine("Success");
+             else
+                Console.WriteLine(badIdx);
            
 
 
