@@ -19,6 +19,7 @@ namespace Solution
 
 
          Stack brackets = new Stack();
+         Stack bracketsIdx = new Stack();
          bool result = true;
          IDictionary<char, char> pairs = new Dictionary<char, char>()
             {
@@ -36,7 +37,11 @@ namespace Solution
                 }
 
             if (pairs.Any(current => inputTxt[idx].Equals(current.Key)))
+                {
                     brackets.Push(inputTxt[idx]);
+                    bracketsIdx.Push(idx);
+                }
+                    
             else if (brackets.Count == 0)
                     {
                         result = false;
@@ -46,10 +51,12 @@ namespace Solution
             else
                     {
                         char lastIn = (Char)brackets.Pop();
+                        int lastInIdx = (int)bracketsIdx.Pop();
+                    
                         if (!inputTxt[idx].Equals(pairs[lastIn]))
                         {
                             result = false;
-                            badIdx = idx + 1;
+                            badIdx = lastInIdx + 1;
                             break;
                         }
 
@@ -62,7 +69,7 @@ namespace Solution
              if (brackets.Count != 0 && result == true)
                 {
                     result = false;
-                    badIdx = inputTxt.Length;
+                    badIdx = (int)bracketsIdx.Pop() + 1 ;
                 }
                     
 

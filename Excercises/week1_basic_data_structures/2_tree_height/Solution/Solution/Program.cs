@@ -56,14 +56,16 @@ namespace Solution
 
         static void Main(string[] args)
         {
-            
-            string[] inputTxt = File.ReadAllLines(@"G:\My Drive\Yasamin\Courses\Data Structure and Algorithm Specialization\Excercises\week1_basic_data_structures\2_tree_height\tests\05");
-            string[] inputStr = inputTxt[1].Split(" ");
-            int[] input = Array.ConvertAll(inputStr, s => int.Parse(s));
 
-            //string[] inputStr = Console.ReadLine().Split(" ");
-            //int n = Convert.ToInt32 (Console.ReadLine());
-            int n = Convert.ToInt32(inputTxt[0]);
+            //string[] inputTxt = File.ReadAllLines(@"G:\My Drive\Yasamin\Courses\Data Structure and Algorithm Specialization\Excercises\week1_basic_data_structures\2_tree_height\tests\05");
+            //string[] inputStr = inputTxt[1].Split(" ");
+            //int n = Convert.ToInt32(inputTxt[0]);
+
+            int n = Convert.ToInt32(Console.ReadLine());
+            string[] inputStr = Console.ReadLine().Split(" ");
+            int[] input = Array.ConvertAll(inputStr, s => int.Parse(s));
+            
+            
             TreeNode[] nodes = new TreeNode[n];
 
             for(int i = 0; i < input.Length; i++)
