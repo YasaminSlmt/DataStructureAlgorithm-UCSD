@@ -56,7 +56,7 @@ namespace Solution
                         if (!inputTxt[idx].Equals(pairs[lastIn]))
                         {
                             result = false;
-                            badIdx = lastInIdx + 1;
+                            badIdx = idx + 1;
                             break;
                         }
 
