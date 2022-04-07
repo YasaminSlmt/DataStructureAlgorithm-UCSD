@@ -61,7 +61,7 @@ namespace Solution
             //string[] inputStr = inputTxt[1].Split(" ");
             //int n = Convert.ToInt32(inputTxt[0]);
 
-            int n = Convert.ToInt32(Console.ReadLine());
+            int n = Convert.ToInt32(Console.ReadLine()); 
             string[] inputStr = Console.ReadLine().Split(" ");
             int[] input = Array.ConvertAll(inputStr, s => int.Parse(s));
             
