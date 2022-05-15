@@ -11,7 +11,7 @@ namespace Solution
     public class Heap
     {
         public List<long> nextAvailTimes = new List<long>();
-        public ArrayList workerIDs = new ArrayList();
+        public List<int> workerIDs = new List<int>();
         public int size = new int();
 
         public Heap(int heapSize)
@@ -48,9 +48,9 @@ namespace Solution
             nextAvailTimes[index1] = nextAvailTimes[index2];
             nextAvailTimes[index2] = temp;
 
-            temp = (int)workerIDs[index1];
+            int tempID = (int)workerIDs[index1];
             workerIDs[index1] = workerIDs[index2];
-            workerIDs[index2] = temp;
+            workerIDs[index2] = tempID;
 
         }
 
@@ -68,12 +68,23 @@ namespace Solution
             int minIndex = i;
             int leftChild = LeftChild(i);
 
-            if (leftChild < size && nextAvailTimes[leftChild] < nextAvailTimes[minIndex])
-                minIndex = leftChild;
+            if (leftChild < size)
+                if (nextAvailTimes[leftChild] < nextAvailTimes[minIndex])
+                    minIndex = leftChild;
+                else if (nextAvailTimes[leftChild] == nextAvailTimes[minIndex] && workerIDs[leftChild] < workerIDs[minIndex])
+                    // if the values are the same, the minimum should be the worker with smaller ID (ther worker with the smaller ID is prioritized in terms of job assignment)
+                    minIndex = leftChild;
+
+
 
             int rightChild = RightChild(i);
-            if (rightChild < size && nextAvailTimes[rightChild] < nextAvailTimes[minIndex])
-                minIndex = rightChild;
+            if (rightChild < size)
+                if (nextAvailTimes[rightChild] < nextAvailTimes[minIndex])
+                    minIndex = rightChild;
+                else if (nextAvailTimes[rightChild] == nextAvailTimes[minIndex] && workerIDs[rightChild] < workerIDs[minIndex])
+                    // if the values are the same, the minimum should be the worker with smaller ID (ther worker with the smaller ID is prioritized in terms of job assignment)
+                    minIndex = rightChild;
+            
 
             if (i != minIndex)
             {
@@ -111,6 +122,16 @@ namespace Solution
             long[] jobsStartTimes = new long[nJobs];
             int[] jobsWorkers = new int[nJobs]; // ID of the workers that are assigned a job
 
+            // The logic is using min heap to sort the workers based on their next available time and use an array which
+            // tracks the ID of the workers
+            // Min heap is initialized by assigning 0 to all the nodes
+            // Then the program would loop over each process and assign it to the root of the heap, which base on the logic
+            // of min heap, would be the node with smallest available time. Then the processing time of the new job is added
+            // to the value of the root, and then SiftDown is called to sort the min heap. 
+            // SiftDown is similar to the one used for the first assignment (and similar to the one used in the course lecture
+            // except that one was a max heap), though it's modified to accound for conditions when the next available time of the parent
+            // is the same as the left or right child, the node with the lowest worker ID should be the parent
+            // In Swap, both the workerID and node in the heap are swapped.
             Heap heap = new Heap(nThreads);
 
 
@@ -122,6 +143,7 @@ namespace Solution
                 jobsStartTimes[iJob] = heap.nextAvailTimes[0];
                 jobsWorkers[iJob] = (int) heap.workerIDs[0];
                 heap.nextAvailTimes[0] += processingTime;
+                heap.SiftDown(0);
             }
 
             // Output
